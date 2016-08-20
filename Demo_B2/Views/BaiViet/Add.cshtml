@@ -1,0 +1,40 @@
+﻿@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Thêm Bài Viết</title>
+</head>
+<body>
+    <div>
+        @using (Html.BeginForm())
+        {
+            
+            <div>
+                <label>Tên Bài Viết</label>
+                <input type="text" name="ten" value=" " placeholder="Tên Bài Viết" />
+            </div>
+            <div>
+                <label>Loại Bài Viết</label>
+                <input type="text" name="loai" value=" " placeholder="Loại Bài Viết" />
+            </div>
+            <div>
+                <label>Tiêu Đề</label>
+                <input type="text" name="tieude" value=" " placeholder="Tiêu Đề" />
+            </div>
+            <div>
+                <label>Nội Dung Bài Viết</label>
+                <input type="text" name="noidung" value=" " placeholder="Nội dung bài viết" />
+                <br />
+
+            </div>
+
+            <button type="submit">Lưu</button>
+        }
+    </div>
+</body>
+</html>

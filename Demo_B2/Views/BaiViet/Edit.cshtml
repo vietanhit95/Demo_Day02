@@ -1,0 +1,40 @@
+﻿@{
+    Layout = null;
+}
+@model Demo_B2.Models.BaiViet
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Sửa Bài Viết</title>
+</head>
+<body>
+    <div>
+        @using (Html.BeginForm())
+        {
+            <div>
+                <label>Mã bài Viết</label>
+                <input type="text" value="@Model.ID"  />
+            </div>
+            <div>
+                <label>Tên Bài Viết</label>
+                <input type="text" name="ten" value="@Model.TenBaiViet" />
+            </div>
+            <div>
+                <label>Loại Bài Viết</label>
+                <input type="text" name="loai" value="@Model.LoaiBaiViet" />
+            </div>
+            <div>
+                <label>Tiêu Đề</label>
+                <input type="text" name="tieude" value="@Model.TieuDe" />
+            </div>
+            <div>
+                <label>Nội Dung Bài Viết</label>
+                <input type="text" name="noidung" value="@Model.NoiDungChiTiet" />
+            </div>
+            <button type="submit">Lưu</button>
+        }
+    </div>
+</body>
+</html>

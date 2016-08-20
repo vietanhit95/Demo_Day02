@@ -1,0 +1,41 @@
+﻿@{
+    Layout = null;
+}
+@model List<Demo_B2.Models.BaiViet>
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Quản lý bài viết</title>
+</head>
+<body>
+    <div>
+        <table cellpadding="1" cellspacing="0" border="1">
+            <tr>
+                <th>Mã bài viết</th>
+                <th>Tên bài viết</th>
+                <th>Loại bài viết</th>
+                <th>Tiêu Đề bài viết</th>
+                <th>Nội dung chi tiết</th>
+                <th>Tùy Chỉnh</th>
+            </tr>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@item.ID</td>
+                    <td>@item.TenBaiViet</td>
+                    <td>@item.LoaiBaiViet</td>
+                    <td>@item.TieuDe</td>
+                    <td>@item.NoiDungChiTiet</td>
+                    <td>
+                        <a href="/BaiViet/Edit/@item.ID"><input type="button" name="name" value="Sửa" /></a>
+                        <a href="/BaiViet/Delete/@item.ID"><input type="button" name="name" value="Xóa" /></a>
+                    </td>
+                </tr>
+            }
+        </table>
+        <a href="/BaiViet/Add"><input type="button" name="Thêm" value="Thêm" /></a>
+    </div>
+</body>
+</html>
