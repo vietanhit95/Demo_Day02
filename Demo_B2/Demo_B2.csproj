@@ -160,6 +160,7 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
+    <Compile Include="Controllers\ArticleController.cs" />
     <Compile Include="Controllers\BaiVietController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -235,6 +236,7 @@
     <Content Include="Views\BaiViet\Index.cshtml" />
     <Content Include="Views\BaiViet\Add.cshtml" />
     <Content Include="Views\BaiViet\Edit.cshtml" />
+    <Content Include="Views\Article\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Content\" />

@@ -1,0 +1,197 @@
+﻿@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Quản lý bài viết</title>
+    <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha256-cCueBR6CsyA4/9szpPfrX3s49M9vUU5BgtiJj06wt/s=" crossorigin="anonymous"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            LoadArticle();
+        });
+        function LoadArticle() {
+            $.ajax({
+                type: 'GET',
+                url: "/Article/Load/",
+                data: {},
+                success: function (ketqua) {
+                    var html = "";
+                    for (i = 0; i < ketqua.Article.length; i++) {
+                        html = html + "<tr id='row-" + ketqua.Article[i].Id + "'>" +
+                                            "<td>" + ketqua.Article[i].Id + "</td>" +
+                                            "<td id='tenhang-" + ketqua.Article[i].Id + "'>" + ketqua.Article[i].Ten + "</td>" +
+                                            "<td id='loaihang-" + ketqua.Article[i].Id + "'>" + ketqua.Article[i].Loai + "</td>" +
+                                            "<td id='tieudehang-" + ketqua.Article[i].Id + "'>" + ketqua.Article[i].TieuDe + "</td>" +
+                                            "<td id='noidunghang-" + ketqua.Article[i].Id + "'>" + ketqua.Article[i].noiDung + "</td>" +
+                                            "<td>" +
+                                                    "<div id='divkkk-" + ketqua.Article[i].Id + "'>" +
+                                                    "<a href='javascript:void(0)' onclick=Edit(" + ketqua.Article[i].Id + ")><input type='button' value='Sửa' /></a>" +
+                                                    "<a href='javascript:void(0)' onclick=Del(" + ketqua.Article[i].Id + ")><input type='button' name='name' value='Xóa' /></a>" +
+                                                    "</div>" +
+                                            "</td>" +
+                                     "</tr>";
+                    }
+                    $("#tbl tbody").html(html);
+                },
+                error: function (e) {
+                    alert("Error!");
+                },
+            });
+
+        }
+        function Edit(id) {
+            var ten = $("#tenhang-" + id).html();
+            var loai = $("#loaihang-" + id).html();
+            var tieude = $("#tieudehang-" + id).html();
+            var noidung = $("#noidunghang-" + id).html();
+
+            var htmlten = "<input class='css' type='text' id='inputten-" + id + "' value='" + ten + "'>";
+            var htmlloai = "<input class='css' type='text' id='inputloai-" + id + "' value='" + loai + "'>";
+            var htmltieude = "<input class='css' type='text' id='inputtieude-" + id + "' value='" + tieude + "'>";
+            var htmlnoidung = "<input class='css' type='text' id='inputnoidung-" + id + "' value='" + noidung + "'>";
+
+            $("#row-" + id + " #tenhang-" + id + "").html(htmlten);
+            $("#row-" + id + " #loaihang-" + id + "").html(htmlloai);
+            $("#row-" + id + " #tieudehang-" + id + "").html(htmltieude);
+            $("#row-" + id + " #noidunghang-" + id + "").html(htmlnoidung);
+
+            $("#divkkk-" + id + "").html("<button type='button' onclick='Save(" + id + ")'>Cập Nhật</button>");
+        }
+
+
+        function Save(id) {
+            var ten = $("#inputten-" + id + "").val();
+            var loai = $("#inputloai-" + id + "").val();
+            var tieude = $("#inputtieude-" + id + "").val();
+            var noidung = $("#inputnoidung-" + id + "").val();
+            $.ajax({
+                type: 'POST',
+                url: '@Url.Action("EditArticle", "Article")',
+                data: {
+                    'id': id,
+                    'ten': ten,
+                    'loai': loai,
+                    'tieude': tieude,
+                    'noidung': noidung
+                },
+                success: function (obj) {
+                    $("#tbl tbody #row-" + obj.Id + " #tenhang-" + obj.Id + "").html(obj.Ten);
+                    $("#tbl tbody #row-" + obj.Id + " #loaihang-" + obj.Id + "").html(obj.Loai);
+                    $("#tbl tbody #row-" + obj.Id + " #tieudehang-" + obj.Id + "").html(obj.TieuDe);
+                    $("#tbl tbody #row-" + obj.Id + " #noidunghang-" + obj.Id + "").html(obj.Noidung);
+
+                    $("#divkkk-" + obj.Id + "").html(
+                         "<a href='javascript:void(0)' onclick=Edit(" + obj.Id + ")><input type='button' value='Sửa' /></a>" +
+                         "<a href='javascript:void(0)' onclick=Del(" + obj.Id + ")><input type='button' name='name' value='Xóa' /></a>"
+                        );
+                },
+                error: function () {
+                    alert("K");
+                },
+            });
+        }
+
+        function Del(id) {
+            $.ajax({
+                type: 'POST',
+                url: "/Article/DelArticle",
+                data: {
+                    'id': id
+                },
+                success: function (id) {
+                    $("#tbl tbody #row-" + id + "").remove();
+                },
+                error: function (e) {
+                    alert("Lỗi cmnr!");
+                },
+            });
+        }
+
+        function Add() {
+            var Ten = $("#ten").val();
+            var Loai = $("#loai").val();
+            var Tieude = $("#tieude").val();
+            var Noidung = $("#noidung").val();
+            $.ajax({
+                type: 'POST',
+                url: '@Url.Action("Add","Article")',
+                data: {
+                    'ten': Ten,
+                    'loai': Loai,
+                    'tieude': Tieude,
+                    'noidung': Noidung
+                },
+                success: function (ketqua) {
+                    if (ketqua != null) {
+                        var htmlAdd = "<tr id='row-" + ketqua.Id + "'>" +
+                                            "<td>" + ketqua.Id + "</td>" +
+                                            "<td id='tenhang-" + ketqua.Id + "'>" + ketqua.TenBV + "</td>" +
+                                            "<td id='loaihang-" + ketqua.Id + "'>" + ketqua.LoaiBV + "</td>" +
+                                            "<td id='tieudehang-" + ketqua.Id + "'>" + ketqua.TieuDe + "</td>" +
+                                            "<td id='noidunghang-" + ketqua.Id + "'>" + ketqua.Noidungchitiet + "</td>" +
+                                            "<td>" +
+                                                    "<div id='divkkk-" + ketqua.Id + "'>" +
+                                                    "<a href='javascript:void(0)' onclick=Edit(" + ketqua.Id + ")><input type='button' value='Sửa' /></a>" +
+                                                    "<a href='javascript:void(0)' onclick=Del(" + ketqua.Id + ")><input type='button' name='name' value='Xóa' /></a>" +
+                                                    "</div>" +
+                                            "</td>" +
+                                     "</tr>";
+                        $("#tbl tbody").append(htmlAdd);
+                    }
+                    else {
+                        alert("Lỗi cmnr!");
+                    }
+                },
+                error: function (e) {
+                    alert("Lỗi cmnr!");
+                },
+            });
+        }
+    </script>
+
+</head>
+<body>
+    <div>
+        <table cellpadding="1" cellspacing="0" border="1" id="tbl">
+            <thead>
+                <tr>
+                    <th>Mã bài Viết</th>
+                    <th>Tên bài viết</th>
+                    <th>Loại bài viết</th>
+                    <th>Tiêu Đề bài viết</th>
+                    <th>Nội dung chi tiết</th>
+                    <th>Tùy Chọn</th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+    </div>
+    <div style="border:1px solid #808080; margin-top:10px; width:300px; padding: 5px 10px;">
+        <div>
+            <h4>ADD ITEM</h4>
+            <label>Tên Bài Viết</label>
+            <input type="text" id="ten" value=" " placeholder="Tên Bài Viết" style="padding: 5px 10px;" />
+        </div>
+        <div>
+            <label>Loại Bài</label>
+            <input type="text" id="loai" value=" " placeholder="Loại Bài Viết" style="margin-left: 26px; padding: 5px 10px;" />
+        </div>
+        <div>
+            <label>Tiêu Đề</label>
+            <input type="text" id="tieude" value=" " placeholder="Tiêu Đề" style="margin-left: 31px; padding: 5px 10px;" />
+        </div>
+        <div>
+            <label>Nội Dung</label>
+            <input type="text" id="noidung" value=" " placeholder="Nội dung bài viết" style="margin-left: 18px; padding: 5px 10px;" />
+            <br />
+
+        </div>
+
+        <button type="button" onclick="Add()">Lưu</button>
+    </div>
+</body>
+</html>
